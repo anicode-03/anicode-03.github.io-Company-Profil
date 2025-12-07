@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel | SmartGreen House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#171717',
+                        accent: '#84CC16',
+                        accentHover: '#65A30D',
+                        darkGreen: '#0F2F24',
+                        light: '#F5F7F6',
+                        textDark: '#171717',
+                        textLight: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animasi kustom dan transisi */
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-8px);
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 9999px;
+        }
+        
+        .nav-link:hover {
+            background-color: #f3f4f6;
+            color: #84CC16;
+        }
+
+        .btn-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* DROPDOWN DESKTOP STYLES */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            margin-top: 8px;
+        }
+
+        .nav-dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-content a:hover {
+            background-color: #f9fafb;
+            color: #84CC16;
+            padding-left: 24px;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* MOBILE DROPDOWN STYLES */
+        .mobile-dropdown-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        /* SCROLL REVEAL ANIMATION STYLES */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.6s ease-out forwards; 
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        
+        .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+        
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* Article Card Styles */
+        .article-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .article-image {
+            transition: transform 0.6s ease;
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #84CC16 0%, #65A30D 100%);
+            transform-origin: 0%;
+            z-index: 1001;
+            display: none;
+        }
+
+        /* Share Button Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Typography for Article Content */
+        .article-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            color: #171717;
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: #171717;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #4b5563;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid #84CC16;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #6b7280;
+        }
+
+        .article-content img {
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        /* Author Card */
+        .author-card {
+            background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .author-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #84CC16 0%, #65A30D 100%);
+        }
+
+        /* Newsletter Subscription */
+        .newsletter-form {
+            background: linear-gradient(135deg, #0F2F24 0%, #171717 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(132, 204, 22, 0.1) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="font-sans text-textDark bg-white antialiased">
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <img class="w-20 sm:w-24" src="image/desktop-logo-removebg-preview.png" alt="">
+                    <span class="font-bold text-lg sm:text-xl tracking-tight text-primary">Smart Green House</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-2">
+                        <a href="index.html" class="nav-link text-gray-600 font-medium hover:text-accent">Home</a>
+                        <a href="profil.html" class="nav-link text-gray-600 font-medium hover:text-accent">Tentang Kami</a>
+                        <a href="produk.html" class="nav-link text-gray-600 font-medium hover:text-accent">Produk</a>
+                        
+                        <!-- Dropdown Layanan -->
+                        <div class="relative nav-dropdown">
+                            <a href="layanan.html" class="nav-link text-gray-600 font-medium hover:text-accent flex items-center">
+                                Layanan
+                                <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform duration-300"></i>
+                            </a>
+                            <div class="nav-dropdown-content">
+                                <a href="layanan.html#magang">Magang</a>
+                                <a href="layanan.html#penelitian">Penelitian</a>
+                                <a href="layanan.html#praktik">Praktikum</a>
+                                <a href="layanan.html#studi-banding">Studi Banding</a>
+                            </div>
+                        </div>
+                        
+                        <a href="kemitraan.html" class="nav-link text-gray-600 font-medium hover:text-accent">Kemitraan</a>
+                        <a href="artikel.html" class="nav-link text-accent font-semibold flex items-center bg-accent/10">Artikel</a>
+                        <a href="kontak.html" class="nav-link text-gray-600 font-medium hover:text-accent">Kontak</a>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#newsletter" class="bg-accent hover:bg-accentHover text-white px-6 py-2.5 rounded-full font-semibold btn-transition shadow-lg shadow-accent/40 hover:shadow-xl hover:scale-[1.05]">
+                        Subscribe
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-accent focus:outline-none btn-transition hover:scale-110">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Home</a>
+                <a href="profil.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Tentang Kami</a>
+                <a href="produk.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Produk</a>
+                
+                <!-- Mobile dropdown untuk Layanan -->
+                <div class="space-y-2">
+                    <button id="mobile-service-toggle" class="flex justify-between items-center w-full px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition focus:outline-none">
+                        Layanan
+                        <i id="mobile-service-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="mobile-service-menu" class="pl-6 space-y-2 mobile-dropdown-content">
+                        <a href="layanan.html#magang" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Magang</a>
+                        <a href="layanan.html#penelitian" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Penelitian</a>
+                        <a href="layanan.html#praktik" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Praktikum</a>
+                        <a href="layanan.html#studi-banding" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Studi Banding</a>
+                    </div>
+                </div>
+                
+                <a href="kemitraan.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Kemitraan</a>
+                <a href="artikel.html" class="block px-3 py-2 text-base font-medium text-accent bg-accent/10 rounded-lg transition">Artikel</a>
+                <a href="kontak.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Kontak</a>
+                <a href="#newsletter" class="block mt-4 text-center bg-accent text-white px-3 py-2 rounded-full font-semibold hover:bg-accentHover transition">Subscribe</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION ARTIKEL -->
+    <section id="hero-artikel" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 bg-darkGreen overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-20 bg-repeat" style="background-image: url('image/WhatsApp\ Image\ 2025-11-12\ at\ 08.04.05_2182b590.jpg');"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <!-- Left Content -->
+                <div class="lg:w-2/3 animate-on-scroll">
+                    <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-4 inline-block">— Wawasan & Inspirasi</span>
+                    <h1 class="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                        Temukan Wawasan Terbaru dalam Pertanian Modern
+                    </h1>
+                    <p class="text-lg text-gray-300 mb-8 max-w-3xl">
+                        Jelajahi artikel, penelitian, dan berita terkini tentang teknologi pertanian, keberlanjutan, dan inovasi Smart Green House.
+                    </p>
+                    
+                    <!-- Search Bar -->
+                    <div class="relative max-w-xl animate-on-scroll delay-1">
+                        <div class="relative">
+                            <input type="text" placeholder="Cari artikel berdasarkan topik atau kata kunci..." 
+                                   class="w-full px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 btn-transition pr-12">
+                            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-accent hover:text-accentHover btn-transition">
+                                <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Stats -->
+                <div class="lg:w-1/3 animate-on-scroll delay-2">
+                    <div class="bg-primary/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                        <div class="text-center">
+                            <div class="text-5xl font-bold text-accent mb-2">150+</div>
+                            <div class="text-white font-medium text-lg mb-1">Artikel Terbit</div>
+                            <div class="text-gray-400 text-sm">Tentang pertanian modern</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">25K+</div>
+                                <div class="text-gray-400 text-xs">Pembaca Bulanan</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">50+</div>
+                                <div class="text-gray-400 text-xs">Penulis Ahli</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATEGORI ARTIKEL -->
+    <section id="kategori-artikel" class="py-12 bg-light sticky top-20 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-wrap gap-3 justify-center animate-on-scroll">
+                <button class="category-filter px-5 py-2.5 rounded-full bg-accent text-white font-semibold btn-transition hover:scale-105 active" data-category="all">
+                    Semua Artikel
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="teknologi">
+                    Teknologi
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="budidaya">
+                    Budidaya
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="inovasi">
+                    Inovasi
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="keberlanjutan">
+                    Keberlanjutan
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="kemitraan">
+                    Kemitraan
+                </button>
+                <button class="category-filter px-5 py-2.5 rounded-full bg-white text-gray-700 font-medium btn-transition hover:bg-gray-100 hover:scale-105" data-category="riset">
+                    Riset & Penelitian
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED ARTICLE -->
+    <section id="featured-article" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="mb-12 animate-on-scroll">
+                <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Featured</span>
+                <h2 class="font-sans text-3xl lg:text-4xl font-bold text-primary">Artikel Pilihan</h2>
+            </div>
+
+            <!-- Featured Article Card -->
+            <div class="article-card bg-white rounded-2xl shadow-xl overflow-hidden animate-on-scroll delay-1">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <!-- Image -->
+                    <div class="relative overflow-hidden h-80 lg:h-auto">
+                        <img src="image/nasabamedia.webp" alt="Featured Article" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge bg-accent text-white">Inovasi</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="p-8 lg:p-12 flex flex-col justify-center">
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <span class="flex items-center mr-4">
+                                <i class="fa-regular fa-calendar mr-2"></i>
+                                15 Desember 2024
+                            </span>
+                            <span class="flex items-center">
+                                <i class="fa-regular fa-clock mr-2"></i>
+                                8 min read
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-2xl lg:text-3xl font-bold text-primary mb-4">
+                            Transformasi Pertanian 4.0: Garuda Spark Innovation Hub Medan Memimpin Revolusi Agritech
+                        </h3>
+                        
+                        <p class="text-gray-600 mb-6">
+                            Teknologi kecerdasan buatan (AI) membawa transformasi besar dalam pertanian modern. Artikel ini membahas bagaimana implementasi AI di Smart Green House meningkatkan produktivitas hingga 300% dengan optimisasi yang presisi.
+                        </p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
+                                    <img src="image/logo nasabamedia.jpeg" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <div class="font-medium text-primary">Nasabamedia--</div>
+                                    <div class="text-sm text-gray-500">Hudalil Mustakim</div>
+                                </div>
+                            </div>
+                            
+                            <a href="https://www.nesabamedia.com/transformasi-pertanian-4-0-garuda-spark-innovation-hub-medan-memimpin-revolusi-agritech/" class="text-accent hover:text-accentHover font-semibold btn-transition inline-flex items-center">
+                                Baca Artikel
+                                <i class="fa-solid fa-arrow-right ml-2 btn-transition group-hover:translate-x-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTIKEL GRID -->
+    <section id="artikel-grid" class="py-16 bg-light">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="mb-12 animate-on-scroll">
+                <h2 class="font-sans text-3xl lg:text-4xl font-bold text-primary mb-2">Artikel Terbaru</h2>
+                <p class="text-gray-600">Temukan wawasan terkini tentang pertanian modern dan teknologi canggih</p>
+            </div>
+
+            <!-- Artikel Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Artikel 1 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-1" data-category="teknologi">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/artikel1.webp" alt="Artikel 1" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge bg-accent text-white">Teknologi</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">25 maret 2022</span>
+                            <span>•</span>
+                            <span class="ml-4">6 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Polije Sebagai Perguruan Tinggi Vokasi Dinilai Linear Bagi Siswa SMK
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Politeknik Negeri Jember (Polije) menerima kunjungan industri dari SMK Bondowoso untuk memperkenalkan teknologi Smart Green House dan sistem pertanian modern.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://timesindonesia.co.id/indonesia-positif/402872/polije-sebagai-perguruan-tinggi-vokasi-dinilai-linier-bagi-siswa-smk" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel 2 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-2" data-category="kemitraan">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/artikel2.jpg" alt="Artikel 2" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge bg-primary text-white">Kemitraan</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">4 November 2019</span>
+                            <span>•</span>
+                            <span class="ml-4">7 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Kunjungi Polije, Utusan Kemenko PMK Kagumi TEFA dan SGH Milik Kampus
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Tim Kementerian Koordinator PMK mengunjungi Teaching Factory Smart Green House Polije dan mengapresiasi implementasi teknologi pertanian modern.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://surabaya.times.co.id/news/pendidikan/o0lltj3e0c/Kunjungi-Polije-Utusan-Kemenko-PMK-Kagumi-TEFA-dan-Smart-Garden-House-Milik-Kampus" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel 3 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-3" data-category="inovasi">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/artikel 3.jpg" alt="Artikel 3" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge bg-accent text-white">Inovasi</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">17 Sep 2023</span>
+                            <span>•</span>
+                            <span class="ml-4">10 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Melon Karya Terbaru: Tefa Smart Green House Jember dengan Produk Inovatif
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Inovasi produk melon premium dengan kemasan revolusioner dari Tefa Smart Green House Polije mendapatkan perhatian luas di pasar modern.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://www.memopos.co.id/2023/09/melon-karya-terbaru-tefa-smart-green.html" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel 4 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-4" data-category="budidaya">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/artikel 4.PNG" alt="Artikel 4" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background-color: #3B82F6; color: white;">Budidaya</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">8 Januari 2025</span>
+                            <span>•</span>
+                            <span class="ml-4">5 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Teknologi Samrt Green House & Agribot SIP Bantu Peani Jember Pantau Lahan Secara Real-Time
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Mahasiswa Politeknik Negeri Jember(polije)berhasil mengembangkan teknologi Smart Green House dan Agribot SIP, sehingga para petani dapat memantau lahan pertaniannya secara real-time.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://youngster.id/innovation/teknologi-smart-green-house-agribot-sip-bantu-petani-di-jember-pantau-lahan-secara-real-time/" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel 5 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-5" data-category="keberlanjutan">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/Artikel 5.webp" alt="Artikel 5" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background-color: #10B981; color: white;">Keberlanjutan</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">28 Nov 2024</span>
+                            <span>•</span>
+                            <span class="ml-4">8 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Nikmatnya Rasa Melon yang Manis, Lembut, dan Steril di SGH Polije
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            Rasa buah melon yang dipetik dari Smart Green House (SGH) bukan hanya manis, namun teksturnya juga lembut. Warnanya hijau kekuningan, ukurannya sedikit lebih kecil daripada ukuran maksimal melon pada umumnya. "Bobotnya sekitar 1,5 kilogram, kalau melon yang ditanam konvensional itu bisa 1,8 kilogram. Karena yang kita jaga bukan hanya kuantitas namun lebih kepada kualitasnya," kata Fendi.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://radarjember.jawapos.com/jember/791109398/nikmatnya-rasa-melon-yang-manis-lembut-dan-steril-di-sgh-polije" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel 6 -->
+                <div class="article-card bg-white rounded-xl overflow-hidden shadow-lg animate-on-scroll delay-6" data-category="riset">
+                    <div class="relative overflow-hidden h-56">
+                        <img src="image/artikel 6.webp" alt="Artikel 6" class="article-image w-full h-full object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background-color: #8B5CF6; color: white;">Riset</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <span class="mr-4">15 Nov 2024</span>
+                            <span>•</span>
+                            <span class="ml-4">12 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-3 line-clamp-2">
+                            Unik Nih ! Melon di Smart Green House Polije
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            JEMBER, RADARJEMBER.ID - Berwisata memetik buah langsung dari pohonnya sambil belajar, tentu menjadi kegiatan menyenangkan dan bisa dilakukan dalam waktu yang bersamaan. Apalagi, jika buah yang dipetik bisa langsung dinikmati di tempat. Sungguh layak disebut wisata paket komplet.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 mr-2 overflow-hidden">
+                                    <img src="image/LOGO-POLITEKNIK-NEGERI-JEMBER-200x200-1-qp3k01kpg4zxykv9llfm94gtknd2gp09v5rx0qkjio.png" alt="Author" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-sm text-gray-600">Humas Polije</span>
+                            </div>
+                            <a href="https://radarjember.jawapos.com/jember/791109397/unik-nih-melon-di-smart-green-house-polije" class="text-accent hover:text-accentHover text-sm font-medium">
+                                Baca →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12 animate-on-scroll">
+                <button id="load-more" class="bg-white hover:bg-gray-100 text-primary px-8 py-3 rounded-full font-semibold btn-transition border border-gray-200 hover:border-gray-300 inline-flex items-center">
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Muat Lebih Banyak Artikel
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- POPULAR ARTICLES -->
+    <section id="popular-articles" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-12 animate-on-scroll">
+                <div>
+                    <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Trending</span>
+                    <h2 class="font-sans text-3xl lg:text-4xl font-bold text-primary">Artikel Terpopuler</h2>
+                </div>
+                <a href="#" class="text-accent hover:text-accentHover font-medium btn-transition hover:scale-105">
+                    Lihat Semua Trending
+                    <i class="fa-solid fa-arrow-right ml-1 text-sm btn-transition group-hover:translate-x-1"></i>
+                </a>
+            </div>
+
+            <!-- Popular Articles Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+    <!-- Popular 1 -->
+    <div class="flex flex-col sm:flex-row items-start gap-4 p-4 sm:p-6 rounded-xl bg-light hover:bg-gray-50 btn-transition animate-on-scroll delay-1 group">
+        <div class="flex-shrink-0 w-full sm:w-20 h-40 sm:h-20 rounded-lg overflow-hidden">
+            <img src="image/popular1.jpeg" alt="Popular 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="text-xs font-semibold text-accent uppercase mb-1">#1 Trending</div>
+            <h3 class="font-bold text-primary mb-2 line-clamp-2 text-sm sm:text-base">Menkomdigi Sebut IoT Tingkatkan Efisiensi Pertanian: Menuju Smart Farming Era Digital</h3>
+            <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500">
+                <span>2.5K views</span>
+                <span class="hidden sm:inline">•</span>
+                <span>12 min read</span>
+                <a href="https://www.nesabamedia.com/menkomdigi-sebut-iot-tingkatkan-efisiensi-pertanian-menuju-smart-farming-era-digital/" 
+                   class="text-accent hover:text-accentHover font-medium ml-0 sm:ml-4 whitespace-nowrap">
+                    Baca →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular 2 -->
+    <div class="flex flex-col sm:flex-row items-start gap-4 p-4 sm:p-6 rounded-xl bg-light hover:bg-gray-50 btn-transition animate-on-scroll delay-2 group">
+        <div class="flex-shrink-0 w-full sm:w-20 h-40 sm:h-20 rounded-lg overflow-hidden">
+            <img src="image/popular2.jpeg" alt="Popular 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="text-xs font-semibold text-accent uppercase mb-1">#2 Trending</div>
+            <h3 class="font-bold text-primary mb-2 line-clamp-2 text-sm sm:text-base">Kemenparekraf Optimalkan Kecerdasan Buatan untuk Dorong Inovasi Industri Kreatif</h3>
+            <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500">
+                <span>1.8K views</span>
+                <span class="hidden sm:inline">•</span>
+                <span>15 min read</span>
+                <a href="https://www.nesabamedia.com/kemenparekraf-optimalkan-kecerdasan-buatan-untuk-dorong-inovasi-industri-kreatif/" 
+                   class="text-accent hover:text-accentHover font-medium ml-0 sm:ml-4 whitespace-nowrap">
+                    Baca →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular 3 -->
+    <div class="flex flex-col sm:flex-row items-start gap-4 p-4 sm:p-6 rounded-xl bg-light hover:bg-gray-50 btn-transition animate-on-scroll delay-3 group">
+        <div class="flex-shrink-0 w-full sm:w-20 h-40 sm:h-20 rounded-lg overflow-hidden">
+            <img src="image/popular3webp.webp" alt="Popular 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="text-xs font-semibold text-accent uppercase mb-1">#3 Trending</div>
+            <h3 class="font-bold text-primary mb-2 line-clamp-2 text-sm sm:text-base">Indonesia dan China Perkuat Kerja Sama Pengembangan Ekosistem AI</h3>
+            <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-500">
+                <span>1.5K views</span>
+                <span class="hidden sm:inline">•</span>
+                <span>10 min read</span>
+                <a href="https://www.nesabamedia.com/indonesia-dan-china-perkuat-kerja-sama-pengembangan-ekosistem-ai/" 
+                    class="text-accent hover:text-accentHover font-medium ml-0 sm:ml-4 whitespace-nowrap">
+                    Baca →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SUBSCRIPTION -->
+    <section id="newsletter" class="py-20 bg-darkGreen overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="newsletter-form text-center relative animate-on-scroll">
+                <div class="relative z-10">
+                    <div class="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center text-accent text-3xl mx-auto mb-6">
+                        <i class="fa-regular fa-newspaper"></i>
+                    </div>
+                    
+                    <h2 class="font-sans text-3xl lg:text-4xl font-bold text-white mb-4">
+                        Dapatkan Update Terbaru
+                    </h2>
+                    
+                    <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+                        Subscribe newsletter kami untuk mendapatkan artikel terbaru, tips pertanian modern, dan update teknologi langsung di inbox Anda.
+                    </p>
+                    
+                    <form class="max-w-md mx-auto">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="email" placeholder="Email address" 
+                                   class="flex-grow px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/50 btn-transition">
+                            <button type="submit" class="bg-accent hover:bg-accentHover text-white px-8 py-3 rounded-full font-semibold btn-transition whitespace-nowrap shadow-lg shadow-accent/40 transform hover:scale-[1.03]">
+                                Subscribe
+                            </button>
+                        </div>
+                        <p class="text-gray-400 text-xs mt-4">
+                            Dengan subscribe, Anda menyetujui kebijakan privasi kami. Tidak ada spam, unsubscribe kapan saja.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTHOR SPOTLIGHT -->
+    <section id="author-spotlight" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-12 animate-on-scroll">
+                <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Rekomendasi</span>
+                <h2 class="font-sans text-3xl lg:text-4xl font-bold text-primary">Penulis Terbaik</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Author 1 -->
+                <div class="author-card text-center animate-on-scroll delay-1">
+                    <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-white shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Author 1" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-bold text-primary text-lg mb-1">Dr. Agus Setiawan</h3>
+                    <p class="text-gray-600 text-sm mb-4">Peneliti Utama SGH</p>
+                    <p class="text-gray-500 text-sm mb-4">Spesialis AI & IoT dalam Pertanian</p>
+                    <div class="text-accent font-semibold">25 Artikel</div>
+                </div>
+
+                <!-- Author 2 -->
+                <div class="author-card text-center animate-on-scroll delay-2">
+                    <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-white shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128b-97e7239b3c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Author 2" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-bold text-primary text-lg mb-1">Dr. Maya Indah</h3>
+                    <p class="text-gray-600 text-sm mb-4">Ahli Keberlanjutan</p>
+                    <p class="text-gray-500 text-sm mb-4">Fokus pada Pertanian Berkelanjutan</p>
+                    <div class="text-accent font-semibold">18 Artikel</div>
+                </div>
+
+                <!-- Author 3 -->
+                <div class="author-card text-center animate-on-scroll delay-3">
+                    <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-white shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Author 3" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-bold text-primary text-lg mb-1">Ir. Budi Santoso</h3>
+                    <p class="text-gray-600 text-sm mb-4">Ahli Budidaya Tanaman</p>
+                    <p class="text-gray-500 text-sm mb-4">Spesialis Teknologi Hidroponik</p>
+                    <div class="text-accent font-semibold">32 Artikel</div>
+                </div>
+
+                <!-- Author 4 -->
+                <div class="author-card text-center animate-on-scroll delay-4">
+                    <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-4 border-white shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Author 4" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-bold text-primary text-lg mb-1">Prof. Data Science</h3>
+                    <p class="text-gray-600 text-sm mb-4">Data Analyst Senior</p>
+                    <p class="text-gray-500 text-sm mb-4">Analisis Data Pertanian & Prediksi</p>
+                    <div class="text-accent font-semibold">15 Artikel</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkGreen text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Brand -->
+                <div>
+                    <div class="column items-center gap-2 mb-6">
+                        <img class="w-40 mb-10" src="image/unnamed-removebg-preview (1).png" alt="">
+                        <span class="font-bold text-xl tracking-tight">Smart Green House</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Membangun masa depan pertanian yang berkelanjutan dengan teknologi pintar dan desain modern.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Navigasi</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li><a href="beranda.html" class="hover:text-accent btn-transition">Beranda</a></li>
+                        <li><a href="profil.html" class="hover:text-accent btn-transition">Tentang Kami</a></li>
+                        <li><a href="produk.html" class="hover:text-accent btn-transition">Produk</a></li>
+                        <li><a href="layanan.html" class="hover:text-accent btn-transition">Layanan</a></li>
+                        <li><a href="kemitraan.html" class="hover:text-accent btn-transition">Kemitraan</a></li>
+                        <li><a href="artikel.html" class="hover:text-accent btn-transition">Artikel</a></li>
+                        <li><a href="kontak.html" class="hover:text-accent btn-transition">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Kategori Artikel</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="teknologi">Teknologi</a></li>
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="budidaya">Budidaya</a></li>
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="inovasi">Inovasi</a></li>
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="keberlanjutan">Keberlanjutan</a></li>
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="kemitraan">Kemitraan</a></li>
+                        <li><a href="#kategori-artikel" class="hover:text-accent btn-transition" data-category="riset">Riset & Penelitian</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact with MAP -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-accent"></i>
+                            <a href="https://maps.app.goo.gl/9sUq7J7w3J2eT26B7" target="_blank" class="hover:text-accent btn-transition cursor-pointer">
+                                JL.Mastrip N0.164, Lingkungan Panji, Tegalgede, Kec.Sumbersari, Jabupaten Jember, Jawa Timur 68121
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-accent"></i>
+                            <span class="hover:text-accent btn-transition">+62 813 5702 6595</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-accent"></i>
+                            <span class="hover:text-accent btn-transition">polijesgh@gmail.com</span>
+                        </li>
+                    </ul>
+
+                    <!-- EMBEDDED GOOGLE MAPS -->
+                    <div class="mt-6 rounded-lg overflow-hidden h-32 w-full border border-white/10 shadow-xl">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3121.483564214384!2d113.724936!3d-8.16013052618245!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695a599d0b3a7%3A0x368f4a9378b18829!2sSmart%20Greenhouse%20Politeknik%20Negeri%20Jember!5e1!3m2!1sid!2sid!4v1765008721542!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 SmartGreen House. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white btn-transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white btn-transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- MOBILE MENU LOGIC ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileServiceToggle = document.getElementById('mobile-service-toggle');
+            const mobileServiceMenu = document.getElementById('mobile-service-menu');
+            const mobileServiceIcon = document.getElementById('mobile-service-icon');
+            
+            // Toggle mobile menu
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    } else {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    }
+                });
+            }
+
+            // Toggle mobile service dropdown
+            if (mobileServiceToggle && mobileServiceMenu) {
+                mobileServiceToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mobileServiceMenu.classList.toggle('active');
+                    
+                    if (mobileServiceIcon) {
+                        mobileServiceIcon.classList.toggle('rotate-180');
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking on links
+            const mobileLinks = document.querySelectorAll('#mobile-menu a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Close main mobile menu
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                    
+                    // Close mobile service dropdown if open
+                    if (mobileServiceMenu && mobileServiceMenu.classList.contains('active')) {
+                        mobileServiceMenu.classList.remove('active');
+                        if (mobileServiceIcon) {
+                            mobileServiceIcon.classList.remove('rotate-180');
+                        }
+                    }
+                });
+            });
+
+            // --- SCROLL REVEAL ANIMATION ---
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const delay = element.getAttribute('data-delay') || '0s';
+
+                        element.style.animationDelay = delay;
+                        element.classList.add('is-visible');
+
+                        observer.unobserve(element);
+                    }
+                });
+            }, observerOptions);
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+
+            // --- CATEGORY FILTERING ---
+            const categoryFilters = document.querySelectorAll('.category-filter');
+            const articleCards = document.querySelectorAll('#artikel-grid .article-card');
+            const loadMoreBtn = document.getElementById('load-more');
+
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    // Remove active class from all filters
+                    categoryFilters.forEach(f => f.classList.remove('active', 'bg-accent', 'text-white'));
+                    categoryFilters.forEach(f => {
+                        if (!f.classList.contains('active')) {
+                            f.classList.add('bg-white', 'text-gray-700');
+                        }
+                    });
+
+                    // Add active class to clicked filter
+                    filter.classList.add('active', 'bg-accent', 'text-white');
+                    filter.classList.remove('bg-white', 'text-gray-700');
+
+                    const selectedCategory = filter.getAttribute('data-category');
+
+                    // Filter articles
+                    articleCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        
+                        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 100);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // --- LOAD MORE ARTICLES ---
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    // Show loading state
+                    const originalText = loadMoreBtn.innerHTML;
+                    loadMoreBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Memuat...';
+                    loadMoreBtn.disabled = true;
+
+                    // Simulate loading more articles
+                    setTimeout(() => {
+                        // In a real application, you would fetch more articles from an API
+                        // For demo, we'll just show an alert
+                        alert('Fitur "Muat Lebih Banyak" akan memuat artikel tambahan dari server. Dalam implementasi nyata, ini akan mengambil data dari API.');
+                        
+                        // Reset button
+                        loadMoreBtn.innerHTML = originalText;
+                        loadMoreBtn.disabled = false;
+                    }, 1500);
+                });
+            }
+
+            // --- SEARCH FUNCTIONALITY ---
+            const searchInput = document.querySelector('#hero-artikel input[type="text"]');
+            const searchButton = document.querySelector('#hero-artikel button');
+
+            if (searchButton && searchInput) {
+                searchButton.addEventListener('click', () => {
+                    const searchTerm = searchInput.value.trim();
+                    if (searchTerm) {
+                        // In a real application, you would make an API call or filter articles
+                        alert(`Mencari artikel dengan kata kunci: "${searchTerm}"\n\nDalam implementasi nyata, ini akan menampilkan hasil pencarian yang relevan.`);
+                        
+                        // Clear search input
+                        searchInput.value = '';
+                        
+                        // Focus back on search input
+                        searchInput.focus();
+                    }
+                });
+
+                // Allow Enter key to trigger search
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        searchButton.click();
+                    }
+                });
+            }
+
+            // --- READING PROGRESS BAR ---
+            const readingProgress = document.getElementById('reading-progress');
+            
+            if (readingProgress) {
+                window.addEventListener('scroll', () => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                    
+                    if (scrollTop > 100) {
+                        readingProgress.style.display = 'block';
+                        readingProgress.style.transform = `scaleX(${scrollPercentage / 100})`;
+                    } else {
+                        readingProgress.style.display = 'none';
+                    }
+                });
+            }
+
+            // --- NEWSLETTER SUBSCRIPTION ---
+            const newsletterForm = document.querySelector('#newsletter form');
+            
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const emailInput = newsletterForm.querySelector('input[type="email"]');
+                    const email = emailInput.value.trim();
+                    
+                    if (email) {
+                        // Show success message
+                        alert(`Terima kasih! Email ${email} telah berhasil didaftarkan untuk newsletter.`);
+                        newsletterForm.reset();
+                    } else {
+                        alert('Harap masukkan alamat email yang valid.');
+                    }
+                });
+            }
+
+            // --- SMOOTH SCROLL ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // --- ARTICLE CARD CLICK ---
+            articleCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Prevent clicking on links from triggering card click
+                    if (e.target.tagName === 'A' || e.target.closest('a')) {
+                        return;
+                    }
+                    
+                    // In a real application, this would navigate to the article detail page
+                    const articleTitle = card.querySelector('h3').textContent;
+                    alert(`Membuka artikel: "${articleTitle}"\n\nDalam implementasi nyata, ini akan mengarahkan ke halaman detail artikel.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

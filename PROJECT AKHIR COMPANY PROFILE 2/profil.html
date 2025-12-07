@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami | SmartGreen House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#171717', // Warna Hitam (teks utama)
+                        accent: '#84CC16', // Warna Lime (aksi/hover)
+                        accentHover: '#65A30D', // Lime lebih gelap
+                        darkGreen: '#0F2F24', // Hijau gelap untuk latar belakang
+                        light: '#F5F7F6',
+                        textDark: '#171717',
+                        textLight: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // Font utama
+                        serif: ['Playfair Display', 'serif'], // Untuk judul besar/hero
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animasi kustom dan transisi untuk konsistensi desain */
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 9999px;
+        }
+        
+        .nav-link.active, .nav-link:hover {
+            background-color: #f3f4f6;
+            color: #84CC16;
+        }
+
+        .btn-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .image-hover-zoom {
+            overflow: hidden;
+        }
+        .image-hover-zoom img {
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .image-hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ========== NAVIGATION DROPDOWN STYLING ========== */
+        .nav-dropdown {
+            position: relative;
+        }
+        
+        .nav-dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .nav-dropdown:hover .nav-dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .nav-dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-dropdown-content a:hover {
+            background-color: #F5F7F6;
+            color: #84CC16;
+            padding-left: 20px;
+        }
+        
+        .nav-dropdown-content a:first-child {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        
+        .nav-dropdown-content a:last-child {
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        /* Untuk mobile */
+        @media (max-width: 767px) {
+            .nav-dropdown-content {
+                position: static;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                width: 100%;
+                margin-top: 0.5rem;
+                background: transparent;
+                display: none;
+            }
+            
+            .nav-dropdown-content.active {
+                display: block;
+            }
+            
+            .nav-dropdown-content a {
+                padding: 10px 16px;
+                color: #6b7280;
+                font-size: 14px;
+            }
+            
+            .nav-dropdown-content a:hover {
+                background-color: #f3f4f6;
+                padding-left: 16px;
+            }
+        }
+
+        /* Styling khusus untuk bagian Visi Misi */
+        .vision-mission-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 246, 0.8) 100%);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animasi scroll */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.6s ease-out forwards; 
+        }
+    </style>
+</head>
+<body class="font-sans text-textDark bg-white antialiased">
+
+    <!-- NAVIGATION dengan DROPDOWN -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <img class="w-20 sm:w-24" src="image/desktop-logo-removebg-preview.png" alt="">
+                    <span class="font-bold text-lg sm:text-xl tracking-tight text-primary">Smart Green House</span>
+                </div>
+
+                <!-- Desktop Menu dengan DROPDOWN -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-2">
+                        <a href="index.html" class="nav-link text-gray-600 font-medium hover:text-accent">Home</a>
+                        <a href="profil.html" class="nav-link text-accent font-semibold flex items-center bg-accent/10">
+                            Tentang Kami
+                        </a>
+                        <a href="produk.html" class="nav-link text-gray-600 font-medium hover:text-accent">Produk</a>
+                        
+                        <!-- Dropdown Layanan -->
+                        <div class="relative nav-dropdown">
+                            <a href="layanan.html" class="nav-link text-gray-600 font-medium hover:text-accent flex items-center">
+                                Layanan
+                                <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform duration-300"></i>
+                            </a>
+                            <div class="nav-dropdown-content">
+                                <a href="layanan.html#magang">Magang</a>
+                                <a href="layanan.html#penelitian">Penelitian</a>
+                                <a href="layanan.html#praktik">Praktikum</a>
+                                <a href="layanan.html#studi-banding">Studi Banding</a>
+                            </div>
+                        </div>
+                        
+                        <a href="kemitraan.html" class="nav-link text-gray-600 font-medium hover:text-accent">Kemitraan</a>
+                        <a href="artikel.html" class="nav-link text-gray-600 font-medium hover:text-accent">Artikel</a>
+                        <a href="kontak.html" class="nav-link text-gray-600 font-medium hover:text-accent">Kontak</a>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="kontak.html" class="bg-accent hover:bg-accentHover text-white px-6 py-2.5 rounded-full font-semibold btn-transition shadow-lg shadow-accent/40 hover:shadow-xl hover:scale-[1.05]">
+                        Konsultasi
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <a href="layanan.html" id="mobile-menu-btn" class="text-gray-600 hover:text-accent focus:outline-none btn-transition hover:scale-110">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Home</a>
+                <a href="profil.html" class="block px-3 py-2 text-base font-medium text-accent bg-accent/10 rounded-lg transition">Tentang Kami</a>
+                <a href="produk.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Produk</a>
+                
+                <!-- Mobile dropdown untuk Layanan -->
+                <div class="nav-dropdown">
+                    <button id="mobile-service-toggle" class="flex justify-between items-center w-full px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition focus:outline-none">
+                        Layanan
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="mobile-service-menu" class="nav-dropdown-content">
+                        <a href="layanan.html#magang" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Magang</a>
+                        <a href="layanan.html#penelitian" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Penelitian</a>
+                        <a href="layanan.html#praktik" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Praktikum</a>
+                        <a href="layanan.html#studi-banding" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Studi Banding</a>
+                    </div>
+                </div>
+                
+                <a href="kemitraan.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Kemitraan</a>
+                <a href="artikel.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Artikel</a>
+                <a href="kontak.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Kontak</a>
+                <a href="kontak.html" class="block mt-4 text-center bg-accent text-white px-3 py-2 rounded-full font-semibold hover:bg-accentHover transition">Hubungi Kami</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION - TENTANG KAMI -->
+    <section id="hero" class="relative pt-32 pb-24 lg:pt-40 lg:pb-32 bg-darkGreen overflow-hidden">
+        <!-- Background Decoration/Pattern -->
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('image/WhatsApp\ Image\ 2025-11-12\ at\ 08.04.05_2182b590.jpg');"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
+            <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-4 inline-block animate-on-scroll delay-1" data-delay="0.1">— Mengenal Lebih Dekat</span>
+            <h1 class="font-sans text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 animate-on-scroll delay-2" data-delay="0.2">
+                Membangun Pertanian Cerdas, <br class="hidden sm:block"> Menuju Masa Depan Hijau.
+            </h1>
+            <p class="text-lg text-gray-300 mb-8 max-w-3xl mx-auto animate-on-scroll delay-3" data-delay="0.3">
+                Sejak didirikan, kami mendedikasikan diri untuk merevolusi sektor agrikultur melalui teknologi IoT, presisi, dan keberlanjutan.
+            </p>
+            <a href="#sejarah" class="bg-accent hover:bg-accentHover text-white px-8 py-3 rounded-full font-semibold btn-transition shadow-lg shadow-accent/40 transform hover:scale-[1.03] animate-on-scroll delay-4" data-delay="0.4">
+                Pelajari Perjalanan Kami <i class="fa-solid fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- VISI & MISI SECTION -->
+    <section id="visi-misi" class="py-20 lg:py-28 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="font-sans text-4xl lg:text-5xl font-bold text-primary mb-4">Visi & Misi Kami</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Landasan yang memandu setiap inovasi dan solusi yang kami tawarkan kepada petani modern.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Visi Card (DARK MODE) -->
+                <div class="p-8 rounded-3xl shadow-2xl card-hover-effect animate-on-scroll delay-1 bg-darkGreen text-white hover:shadow-accent/40" data-delay="0.1">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-full bg-accent/30 flex items-center justify-center text-accent">
+                            <i class="fa-solid fa-bullseye text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-sans font-bold text-white">Visi</h3>
+                    </div>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        “Dengan adanya penambahan pembangunan Green House, fasilitas ini diharapkan mampu berkembang lebih optimal sebagai pusat pendidikan, penelitian, inovasi, dan pengembangan teknologi pertanian modern di Politeknik Negeri Jember.”
+                    </p>
+                    <div class="mt-6">
+                         <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Fokus Jangka Panjang: Inovasi & Skalabilitas</span>
+                    </div>
+                </div>
+
+                <!-- Misi Card (LIGHT MODE) -->
+                <div class="p-8 rounded-3xl shadow-xl card-hover-effect animate-on-scroll delay-2 bg-light text-primary hover:shadow-primary/20" data-delay="0.2">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center text-accent">
+                            <i class="fa-solid fa-rocket text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-sans font-bold text-primary">Misi</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700 text-lg list-disc ml-5">
+                        <li><b>Mendukung Penelitian dan Pendidikan</b>
+                            <p>Menyediakan fasilitas yang memadai bagi mahasiswa dan dosen untuk melakukan penelitian, praktikum, dan pengembangan ilmu pengetahuan di bidang pertanian berbasis teknologi.</p>
+                        </li>
+                        <li><b>Mengambangkan Inovasi Teknologi Pertanian</b>
+                            <p>Menghasilkan inovasi dalam penerapan IoT, automasi, dan kecerdasan buatan yang dapat digunakan untuk meningkatkan efektivitas dan efisiensi budidaya tanaman.</p>
+                        </li>
+                        <li><b>Membangun Ekosistem Bisnis dan Hilirisasi Produk</b>
+                            <p>Mengembangkan peluang kolaborasi usaha, pelatihan, inkubasi bisnis, dan pemanfaatan hasil budidaya sebagai bagian dari kegiatan edukatif, komersial, dan pemberdayaan masyarakat.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NILAI-NILAI INTI SECTION (Core Values) -->
+    <section id="nilai-inti" class="py-20 lg:py-28 bg-light">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Kultur Kami</span>
+                <h2 class="font-sans text-4xl font-bold text-primary">Nilai-Nilai Inti SmartGreen</h2>
+            </div>
+
+            <!-- Values Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Value 1: Inovasi -->
+                <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover-effect animate-on-scroll delay-1" data-delay="0.1">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-accent/20 flex items-center justify-center text-accent mb-4">
+                        <i class="fa-solid fa-lightbulb text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-primary mb-2">Inovasi Berkelanjutan</h4>
+                    <p class="text-gray-600 text-sm">Kami berkomitmen untuk terus meneliti dan mengembangkan solusi agrikultur terbaru.</p>
+                </div>
+                
+                <!-- Value 2: Keberlanjutan -->
+                <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover-effect animate-on-scroll delay-2" data-delay="0.2">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-accent/20 flex items-center justify-center text-accent mb-4">
+                        <i class="fa-solid fa-leaf text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-primary mb-2">Fokus Lingkungan</h4>
+                    <p class="text-gray-600 text-sm">Mengedepankan praktik yang hemat air, energi, dan meminimalkan dampak ekologis.</p>
+                </div>
+
+                <!-- Value 3: Akurasi Data -->
+                <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover-effect animate-on-scroll delay-3" data-delay="0.3">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-accent/20 flex items-center justify-center text-accent mb-4">
+                        <i class="fa-solid fa-chart-area text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-primary mb-2">Akurasi & Presisi</h4>
+                    <p class="text-gray-600 text-sm">Keputusan didasarkan pada data sensor realtime yang menjamin pertumbuhan tanaman optimal.</p>
+                </div>
+
+                <!-- Value 4: Kemitraan -->
+                <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover-effect animate-on-scroll delay-4" data-delay="0.4">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-accent/20 flex items-center justify-center text-accent mb-4">
+                        <i class="fa-solid fa-handshake text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-xl text-primary mb-2">Kolaborasi</h4>
+                    <p class="text-gray-600 text-sm">Kami percaya pada kerja sama erat dengan petani, akademisi, dan pemerintah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEJARAH SINGKAT (Brief History/Timeline) -->
+    <section id="sejarah" class="py-20 lg:py-28 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+             <div class="text-center mb-16 animate-on-scroll">
+                <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Perjalanan Waktu</span>
+                <h2 class="font-sans text-4xl font-bold text-primary">Sejarah Singkat SmartGreen</h2>
+            </div>
+            
+            <!-- Simple Timeline -->
+            <div class="max-w-4xl mx-auto space-y-12">
+                
+                <!-- Event 1 -->
+                <div class="flex flex-col md:flex-row gap-8 animate-on-scroll delay-1" data-delay="0.1">
+                    <div class="md:w-1/3 flex-shrink-0">
+                        <p class="font-sans text-3xl font-bold text-accent">2018</p>
+                        <p class="text-gray-500 font-medium">Fase Penelitian</p>
+                    </div>
+                    <div class="md:w-2/3 border-l-4 border-accent pl-6">
+                        <h3 class="text-2xl font-bold text-primary mb-2">Lahirnya Ide</h3>
+                        <p class="text-gray-700">pembangunan Green House mulai direalisasikan sebagai upaya awal untuk menciptakan lingkungan budidaya tanaman yang terkendali dan berbasis teknologi. Fasilitas ini kemudian resmi beroperasi pada tahun 2019, menjadi sarana utama pembelajaran, penelitian, serta pengembangan teknologi pertanian modern bagi mahasiswa dan dosen.</p>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="flex flex-col md:flex-row gap-8 animate-on-scroll delay-2" data-delay="0.2">
+                    <div class="md:w-1/3 flex-shrink-0">
+                        <p class="font-sans text-3xl font-bold text-accent">2024</p>
+                        <p class="text-gray-500 font-medium">Peluncuran Komersial</p>
+                    </div>
+                    <div class="md:w-2/3 border-l-4 border-accent pl-6">
+                        <h3 class="text-2xl font-bold text-primary mb-2">Sistem Generasi Pertama</h3>
+                        <p class="text-gray-700">Seiring berjalannya waktu, kebutuhan penelitian dan kapasitas fasilitas terus meningkat. Pada tahun 2024, Polije melakukan pengembangan melalui penambahan bangunan Green House yang lebih modern dan berkapasitas lebih besar.</p>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="flex flex-col md:flex-row gap-8 animate-on-scroll delay-3" data-delay="0.3">
+                    <div class="md:w-1/3 flex-shrink-0">
+                        <p class="font-sans text-3xl font-bold text-accent">2025</p>
+                        <p class="text-gray-500 font-medium">Pembangunan</p>
+                    </div>
+                    <div class="md:w-2/3 border-l-4 border-accent pl-6">
+                        <h3 class="text-2xl font-bold text-primary mb-2">Mulai Beroperasi</h3>
+                        <p class="text-gray-700">Tahap pembangunan tersebut selesai dan mulai beroperasi pada bulan Mei 2025, menandai babak baru dalam pengembangan Smart Green House sebagai pusat inovasi pertanian presisi di Politeknik Negeri Jember.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM / FOUNDERS SECTION -->
+    <section id="tim-kami" class="py-20 lg:py-28 bg-darkGreen text-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 animate-on-scroll">
+                <span class="text-accent font-semibold tracking-wider text-sm uppercase mb-3 block">— Wajah di Balik Inovasi</span>
+                <h2 class="font-sans text-4xl font-bold text-white">Tim Penggerak SmartGreen</h2>
+            </div>
+
+            <!-- Team Grid (4 members for placeholder) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                
+                <!-- Member 1 -->
+                <div class="text-center group card-hover-effect p-4 rounded-xl bg-primary/20 hover:bg-primary/30 btn-transition animate-on-scroll delay-1" data-delay="0.1">
+                    <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 border-4 border-accent/50 group-hover:border-accent btn-transition">
+                        <img src="image/profilicon.avif" alt="Founder 1" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-bold text-xl text-white">Refa Firgiyanto, S.P., M.Si</h4>
+                    <p class="text-accent text-sm font-medium mb-2">Kepala UPA. Pengembangan Pertanian Terpadu</p>
+                    <p class="text-gray-400 text-xs"> bertugas memimpin, merencanakan, mengoordinasikan, dan mengembangkan kegiatan teknis operasional </p>
+                </div>
+                
+                <!-- Member 2 -->
+                <div class="text-center group card-hover-effect p-4 rounded-xl bg-primary/20 hover:bg-primary/30 btn-transition animate-on-scroll delay-2" data-delay="0.2">
+                    <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 border-4 border-accent/50 group-hover:border-accent btn-transition">
+                        <img src="image/profilicon.avif" alt="Founder 2" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-bold text-xl text-white">Fendi Hermawan S.ST</h4>
+                    <p class="text-accent text-sm font-medium mb-2">Manajer TEFA Smart Green House</p>
+                    <p class="text-gray-400 text-xs">mengawasi operasional rumah kaca pintar, memanfaatkan teknologi IoT dan sensor</p>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="text-center group card-hover-effect p-4 rounded-xl bg-primary/20 hover:bg-primary/30 btn-transition animate-on-scroll delay-3" data-delay="0.3">
+                    <div class="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 border-4 border-accent/50 group-hover:border-accent btn-transition">
+                        <img src="image/profilicon.avif" alt="Founder 3" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-bold text-xl text-white">Jaiz</h4>
+                    <p class="text-accent text-sm font-medium mb-2">Koordinator Lapangan</p>
+                    <p class="text-gray-400 text-xs">Bertanggung jawab atas Keamanan Lapangan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION (CTA) SECTION -->
+    <section class="py-16 animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+            <h2 class="font-sans text-3xl lg:text-4xl font-bold text-primary mb-4">Siap Bertumbuh Bersama Kami?</h2>
+            <p class="text-lg text-primary/80 mb-8 max-w-2xl mx-auto">
+                Hubungi tim kami untuk konsultasi gratis dan mulailah perjalanan pertanian cerdas Anda.
+            </p>
+            <a href="kontak.html" class="bg-primary hover:bg-darkGreen text-white px-8 py-3 rounded-full font-semibold btn-transition shadow-xl shadow-primary/30 transform hover:scale-[1.03]">
+                Jadwalkan Konsultasi Gratis
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="kontak" class="bg-darkGreen text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Brand -->
+                <div>
+                    <div class="column items-center gap-2 mb-6">
+                        <img class="w-40 mb-10" src="image/unnamed-removebg-preview (1).png" alt="">
+                        <span class="font-bold text-xl tracking-tight">Smart Green House</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Membangun masa depan pertanian yang berkelanjutan dengan teknologi pintar dan desain modern.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary btn-transition hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Navigasi</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li><a href="beranda.html" class="hover:text-accent btn-transition">Beranda</a></li>
+                        <li><a href="profil.html" class="hover:text-accent btn-transition">Tentang Kami</a></li>
+                        <li><a href="produk.html" class="hover:text-accent btn-transition">Produk</a></li>
+                        <li><a href="layanan.html" class="hover:text-accent btn-transition">Layanan</a></li>
+                        <li><a href="kemitraan.html" class="hover:text-accent btn-transition">Kemitraan</a></li>
+                        <li><a href="artikel.html" class="hover:text-accent btn-transition">Artikel</a></li>
+                        <li><a href="kontak.html" class="hover:text-accent btn-transition">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Layanan</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li><a href="layanan.html#magang" class="hover:text-accent btn-transition">Magang</a></li>
+                        <li><a href="layanan.html#praktik" class="hover:text-accent btn-transition">Praktik</a></li>
+                        <li><a href="layanan.html#penelitian" class="hover:text-accent btn-transition">Penelitian</a></li>
+                        <li><a href="layanan.html#studi-banding" class="hover:text-accent btn-transition">Studi Banding</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact with MAP -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-accent"></i>
+                            <a href="https://maps.app.goo.gl/9sUq7J7w3J2eT26B7" target="_blank" class="hover:text-accent btn-transition cursor-pointer">
+                                JL.Mastrip N0.164, Lingkungan Panji, Tegalgede, Kec.Sumbersari, Jabupaten Jember, Jawa Timur 68121
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-accent"></i>
+                            <span class="hover:text-accent btn-transition">+62 813 5702 6595</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-accent"></i>
+                            <span class="hover:text-accent btn-transition">polijesgh@gmail.com</span>
+                        </li>
+                    </ul>
+
+                    <!-- EMBEDDED GOOGLE MAPS -->
+                    <div class="mt-6 rounded-lg overflow-hidden h-32 w-full border border-white/10 shadow-xl">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3121.483564214384!2d113.724936!3d-8.16013052618245!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695a599d0b3a7%3A0x368f4a9378b18829!2sSmart%20Greenhouse%20Politeknik%20Negeri%20Jember!5e1!3m2!1sid!2sid!4v1765008721542!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 SmartGreen House. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white btn-transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white btn-transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- MOBILE MENU LOGIC ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileServiceToggle = document.getElementById('mobile-service-toggle');
+            const mobileServiceMenu = document.getElementById('mobile-service-menu');
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                }
+            });
+
+            // Toggle mobile service dropdown
+            if (mobileServiceToggle) {
+                mobileServiceToggle.addEventListener('click', () => {
+                    mobileServiceMenu.classList.toggle('active');
+                    const icon = mobileServiceToggle.querySelector('i');
+                    icon.classList.toggle('rotate-180');
+                });
+            }
+
+            // Close mobile menu when clicking links
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    
+                    // Also close any open dropdowns
+                    const dropdowns = mobileMenu.querySelectorAll('.nav-dropdown-content.active');
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                        const toggleBtn = dropdown.previousElementSibling;
+                        if (toggleBtn && toggleBtn.querySelector('i')) {
+                            toggleBtn.querySelector('i').classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+
+            // --- NAVIGATION DROPDOWN LOGIC ---
+            const navDropdowns = document.querySelectorAll('.nav-dropdown');
+            
+            navDropdowns.forEach(dropdown => {
+                const content = dropdown.querySelector('.nav-dropdown-content');
+                const toggleBtn = dropdown.querySelector('a, button');
+                
+                if (toggleBtn) {
+                    // Desktop: show on hover
+                    if (window.innerWidth >= 768) {
+                        dropdown.addEventListener('mouseenter', () => {
+                            content.style.opacity = '1';
+                            content.style.visibility = 'visible';
+                            content.style.transform = 'translateY(0)';
+                        });
+                        
+                        dropdown.addEventListener('mouseleave', () => {
+                            content.style.opacity = '0';
+                            content.style.visibility = 'hidden';
+                            content.style.transform = 'translateY(10px)';
+                        });
+                    }
+                    
+                    // Mobile: show on click
+                    if (window.innerWidth < 768) {
+                        toggleBtn.addEventListener('click', (e) => {
+                            if (toggleBtn.tagName === 'A') {
+                                e.preventDefault();
+                            }
+                            
+                            // Close other dropdowns
+                            navDropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    const otherContent = otherDropdown.querySelector('.nav-dropdown-content');
+                                    if (otherContent) {
+                                        otherContent.classList.remove('active');
+                                        const otherToggle = otherDropdown.querySelector('a, button');
+                                        if (otherToggle && otherToggle.querySelector('i')) {
+                                            otherToggle.querySelector('i').classList.remove('rotate-180');
+                                        }
+                                    }
+                                }
+                            });
+                            
+                            // Toggle current dropdown
+                            content.classList.toggle('active');
+                            const icon = toggleBtn.querySelector('i');
+                            if (icon) {
+                                icon.classList.toggle('rotate-180');
+                            }
+                        });
+                    }
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-dropdown')) {
+                    navDropdowns.forEach(dropdown => {
+                        const content = dropdown.querySelector('.nav-dropdown-content');
+                        const toggleBtn = dropdown.querySelector('a, button');
+                        
+                        if (window.innerWidth < 768) {
+                            if (content && content.classList.contains('active')) {
+                                content.classList.remove('active');
+                                if (toggleBtn && toggleBtn.querySelector('i')) {
+                                    toggleBtn.querySelector('i').classList.remove('rotate-180');
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Update behavior on window resize
+            window.addEventListener('resize', () => {
+                navDropdowns.forEach(dropdown => {
+                    const content = dropdown.querySelector('.nav-dropdown-content');
+                    const toggleBtn = dropdown.querySelector('a, button');
+                    
+                    if (window.innerWidth >= 768) {
+                        // Desktop: remove mobile classes and reset styles
+                        if (content) {
+                            content.classList.remove('active');
+                            content.style.opacity = '0';
+                            content.style.visibility = 'hidden';
+                            content.style.transform = 'translateY(10px)';
+                        }
+                        
+                        // Reset icon rotation
+                        if (toggleBtn && toggleBtn.querySelector('i')) {
+                            toggleBtn.querySelector('i').classList.remove('rotate-180');
+                        }
+                    } else {
+                        // Mobile: reset desktop styles
+                        if (content) {
+                            content.style.opacity = '';
+                            content.style.visibility = '';
+                            content.style.transform = '';
+                        }
+                    }
+                });
+            });
+
+            // --- SCROLL ANIMATION LOGIC ---
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const delay = element.getAttribute('data-delay') || '0s';
+
+                        element.style.animationDelay = delay;
+                        element.classList.add('is-visible');
+
+                        observer.unobserve(element);
+                    }
+                });
+            }, observerOptions);
+
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Smooth scroll untuk anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Tutup mobile menu jika terbuka
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenuBtn.querySelector('i').classList.remove('fa-xmark');
+                            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

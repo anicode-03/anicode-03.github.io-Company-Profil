@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak | SmartGreen House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#171717',
+                        accent: '#84CC16',
+                        accentHover: '#65A30D',
+                        darkGreen: '#0F2F24',
+                        light: '#F5F7F6',
+                        textDark: '#171717',
+                        textLight: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'contact-hero': "url('image/WhatsApp Image 2025-11-12 at 08.04.05_2182b590.jpg')",
+                        'gradient-overlay': 'linear-gradient(to right, rgba(15, 47, 36, 0.9), rgba(15, 47, 36, 0.7))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animasi Scroll */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Animasi Hover */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Animasi Float untuk Icon */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Animasi Form */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            transform: scale(1.02);
+        }
+
+        /* Animasi Map */
+        .map-hover {
+            transition: all 0.5s ease;
+        }
+
+        .map-hover:hover {
+            transform: scale(1.02);
+        }
+
+        /* DROPDOWN DESKTOP STYLES */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            margin-top: 5px;
+        }
+
+        .nav-dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-content a:hover {
+            background-color: #f9fafb;
+            color: #84CC16;
+            padding-left: 24px;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* MOBILE DROPDOWN STYLES - DIPERBAIKI */
+        .mobile-dropdown-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        /* Smooth transition for chevron icon */
+        .fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+        
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* NAVBAR LINK MARGIN - DIPERBAIKI */
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            margin: 0 2px;
+        }
+        
+        .nav-link:hover {
+            background-color: #f3f4f6;
+            color: #84CC16;
+        }
+
+        /* Mobile menu button spacing */
+        .mobile-menu-btn {
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        /* HERO SECTION STYLES - DIPERBAIKI UNTUK MOBILE */
+        .hero-section {
+            background-image: linear-gradient(to bottom, rgba(15, 47, 36, 0.85), rgba(15, 47, 36, 0.75)), 
+                            url('image/WhatsApp Image 2025-11-12 at 08.04.05_2182b590.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Untuk landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero-section {
+                min-height: 120vh;
+                background-size: cover;
+                background-position: top center;
+            }
+        }
+
+        /* Untuk tablet */
+        @media (min-width: 768px) {
+            .hero-section {
+                background-size: cover;
+                background-position: center center;
+                min-height: 500px;
+                background-image: linear-gradient(to right, rgba(15, 47, 36, 0.85), rgba(15, 47, 36, 0.75)), 
+                                url('image/WhatsApp Image 2025-11-12 at 08.04.05_2182b590.jpg');
+            }
+        }
+
+        /* Untuk desktop */
+        @media (min-width: 1024px) {
+            .hero-section {
+                min-height: 600px;
+            }
+        }
+
+        /* Pastikan gambar background tidak terpotong di mobile */
+        @media (max-width: 767px) {
+            .hero-section {
+                background-size: cover;
+                background-position: center center;
+                background-attachment: scroll;
+            }
+            
+            /* Adjust content untuk mobile */
+            .hero-content {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+        }
+
+        /* Pastikan konten tidak terlalu dekat dengan navbar di mobile */
+        @media (max-width: 640px) {
+            .hero-section {
+                padding-top: 80px;
+                padding-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-textDark bg-white antialiased">
+
+    <!-- NAVIGATION dengan DROPDOWN - MARGIN DIPERBAIKI -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <img class="w-20 sm:w-24" src="image/desktop-logo-removebg-preview.png" alt="">
+                    <span class="font-bold text-lg sm:text-xl tracking-tight text-primary">Smart Green House</span>
+                </div>
+
+                <!-- Desktop Menu dengan DROPDOWN - MARGIN DIPERBAIKI -->
+                <div class="hidden md:block">
+                    <div class="ml-8 flex items-baseline space-x-1">
+                        <a href="index.html" class="nav-link text-gray-600 font-medium hover:text-accent">Home</a>
+                        <a href="profil.html" class="nav-link text-gray-600 font-medium hover:text-accent">Tentang Kami</a>
+                        <a href="produk.html" class="nav-link text-gray-600 font-medium hover:text-accent">Produk</a>
+                        
+                        <!-- Dropdown Layanan -->
+                        <div class="relative nav-dropdown">
+                            <a href="layanan.html" class="nav-link text-gray-600 font-medium hover:text-accent flex items-center">
+                                Layanan
+                                <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform duration-300"></i>
+                            </a>
+                            <div class="nav-dropdown-content">
+                                <a href="#magang">Magang</a>
+                                <a href="#penelitian">Penelitian</a>
+                                <a href="#praktik">Praktikum</a>
+                                <a href="#studi-banding">Studi Banding</a>
+                            </div>
+                        </div>
+                        
+                        <a href="kemitraan.html" class="nav-link text-gray-600 font-medium hover:text-accent">Kemitraan</a>
+                        <a href="artikel.html" class="nav-link text-gray-600 font-medium hover:text-accent">Artikel</a>
+                        <a href="kontak.html" class="nav-link text-accent font-semibold flex items-center bg-accent/10">Kontak</a>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#form-kontak" class="bg-accent hover:bg-accentHover text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 shadow-lg shadow-accent/40 hover:shadow-xl hover:scale-[1.05]">
+                        Hubungi Kami
+                    </a>
+                </div>
+
+                <!-- Mobile menu button - MARGIN DIPERBAIKI -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn text-gray-600 hover:text-accent focus:outline-none transition-all duration-300 hover:scale-110">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel - DROPDOWN MOBILE DIPERBAIKI -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Home</a>
+                <a href="profil.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Tentang Kami</a>
+                <a href="produk.html" class="block px-3 py-2 text-base font-medium text-primary hover:bg-gray-100 rounded-lg transition">Produk</a>
+                
+                <!-- Mobile dropdown untuk Layanan - DIPERBAIKI -->
+                <div class="space-y-2">
+                    <button id="mobile-service-toggle" class="flex justify-between items-center w-full px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition focus:outline-none">
+                        Layanan
+                        <i id="mobile-service-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="mobile-service-menu" class="pl-6 space-y-2 mobile-dropdown-content">
+                        <a href="#magang" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Magang</a>
+                        <a href="#penelitian" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Penelitian</a>
+                        <a href="#praktik" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Praktikum</a>
+                        <a href="#studi-banding" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition">Studi Banding</a>
+                    </div>
+                </div>
+                
+                <a href="kemitraan.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Kemitraan</a>
+                <a href="artikel.html" class="block px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition">Artikel</a>
+                <a href="kontak.html" class="block px-3 py-2 text-base font-medium text-accent bg-accent/10 rounded-lg transition">Kontak</a>
+                <a href="#form-kontak" class="block mt-4 text-center bg-accent text-white px-3 py-2 rounded-full font-semibold hover:bg-accentHover transition">Hubungi Kami</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION - DIPERBAIKI UNTUK MOBILE -->
+    <section class="hero-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full hero-content">
+            <div class="text-center animate-on-scroll py-8 sm:py-0">
+                <span class="text-accent font-semibold text-sm uppercase mb-4 block tracking-widest">— Hubungi Kami</span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+                    Mari <span class="text-accent">Berkolaborasi</span>
+                </h1>
+                <p class="text-gray-200 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto px-4 sm:px-0 leading-relaxed">
+                    Siap membantu Anda dalam mewujudkan pertanian modern yang lebih baik dan berkelanjutan.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8 px-4 sm:px-0">
+                    <a href="#form-kontak" 
+                       class="bg-accent hover:bg-accentHover text-white px-6 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg shadow-accent/30 hover:shadow-xl hover:scale-[1.05] inline-flex items-center justify-center gap-2 text-sm sm:text-base">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Kirim Pesan
+                    </a>
+                    <a href="tel:+6281357026595" 
+                       class="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/30 px-6 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-[1.05] inline-flex items-center justify-center gap-2 text-sm sm:text-base">
+                        <i class="fa-solid fa-phone"></i>
+                        Telepon Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overlay Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-darkGreen/50 to-darkGreen"></div>
+    </section>
+
+    <!-- CONTACT INFO -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
+                
+                <!-- Contact 1 -->
+                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white shadow-xl border border-gray-100 card-hover animate-on-scroll">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent text-xl sm:text-2xl mx-auto mb-4 sm:mb-6 float-animation">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-primary mb-3 sm:mb-4">Lokasi</h3>
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        JL.Mastrip N0.164, Lingkungan Panji, Tegalgede, Kec.Sumbersari, Kabupaten Jember, Jawa Timur 68121
+                    </p>
+                    <a href="https://maps.app.goo.gl/9sUq7J7w3J2eT26B7" target="_blank" class="mt-3 sm:mt-4 inline-block text-accent font-medium hover:text-accentHover transition-colors text-sm sm:text-base">
+                        Lihat di Peta <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Contact 2 -->
+                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white shadow-xl border border-gray-100 card-hover animate-on-scroll delay-1">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent text-xl sm:text-2xl mx-auto mb-4 sm:mb-6 float-animation">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-primary mb-3 sm:mb-4">Telepon</h3>
+                    <p class="text-gray-600 mb-2 font-semibold text-base sm:text-lg">+62 813 5702 6595</p>
+                    <p class="text-gray-600 text-xs sm:text-sm">Senin - Jumat, 08:00 - 16:00</p>
+                    <a href="tel:+6281357026595" class="mt-3 sm:mt-4 inline-block bg-accent/10 text-accent px-4 sm:px-6 py-2 rounded-full font-medium hover:bg-accent hover:text-white transition-all duration-300 text-sm sm:text-base">
+                        <i class="fa-solid fa-phone mr-2"></i>Telepon Sekarang
+                    </a>
+                </div>
+
+                <!-- Contact 3 -->
+                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white shadow-xl border border-gray-100 card-hover animate-on-scroll delay-2">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent text-xl sm:text-2xl mx-auto mb-4 sm:mb-6 float-animation">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-primary mb-3 sm:mb-4">Email</h3>
+                    <p class="text-gray-600 mb-2 font-semibold text-base sm:text-lg">polijesgh@gmail.com</p>
+                    <p class="text-gray-600 text-xs sm:text-sm">Respon dalam 12 jam kerja</p>
+                    <a href="mailto:polijesgh@gmail.com" class="mt-3 sm:mt-4 inline-block bg-accent/10 text-accent px-4 sm:px-6 py-2 rounded-full font-medium hover:bg-accent hover:text-white transition-all duration-300 text-sm sm:text-base">
+                        <i class="fa-solid fa-envelope mr-2"></i>Kirim Email
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM & MAP -->
+    <section class="py-12 sm:py-16 bg-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-8 sm:gap-12">
+                
+                <!-- Contact Form -->
+                <div class="animate-on-scroll" id="form-kontak">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-6">Kirim Pesan</h2>
+                    <p class="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base">
+                        Punya pertanyaan atau ingin bekerja sama? Silakan isi form di bawah ini dan tim kami akan menghubungi Anda segera.
+                    </p>
+                    
+                    <form class="space-y-4 sm:space-y-6 bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap <span class="text-red-500">*</span></label>
+                                <input type="text" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent focus:ring-2 focus:ring-accent/50 form-input text-sm sm:text-base"
+                                       placeholder="Nama Anda"
+                                       required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
+                                <input type="email" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent focus:ring-2 focus:ring-accent/50 form-input text-sm sm:text-base"
+                                       placeholder="email@example.com"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subjek <span class="text-red-500">*</span></label>
+                            <input type="text" 
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent focus:ring-2 focus:ring-accent/50 form-input text-sm sm:text-base"
+                                   placeholder="Subjek pesan"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pesan <span class="text-red-500">*</span></label>
+                            <textarea rows="5" 
+                                      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent focus:ring-2 focus:ring-accent/50 form-input text-sm sm:text-base"
+                                      placeholder="Tulis pesan Anda di sini..."
+                                      required></textarea>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full bg-accent hover:bg-accentHover text-white py-3 sm:py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-accent/30 text-sm sm:text-base">
+                            <i class="fa-solid fa-paper-plane mr-2"></i>Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Map -->
+                <div class="animate-on-scroll delay-1">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-6">Lokasi Kami</h2>
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg map-hover border border-gray-100">
+                        <div class="h-64 sm:h-80 md:h-96">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3121.483564214384!2d113.724936!3d-8.16013052618245!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695a599d0b3a7%3A0x368f4a9378b18829!2sSmart%20Greenhouse%20Politeknik%20Negeri%20Jember!5e1!3m2!1sid!2sid!4v1765008721542!5m2!1sid!2sid" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy"
+                                class="border-0">
+                            </iframe>
+                        </div>
+                        <div class="p-4 sm:p-6 bg-darkGreen text-white">
+                            <h3 class="font-bold text-lg sm:text-xl mb-2">Smart Green House Polije</h3>
+                            <p class="text-gray-300 text-sm sm:text-base">
+                                Lokasi: Kampus Politeknik Negeri Jember, Jl. Mastrip No.164, Jember
+                            </p>
+                            <a href="https://maps.app.goo.gl/9sUq7J7w3J2eT26B7" target="_blank" 
+                               class="mt-3 sm:mt-4 inline-flex items-center text-accent hover:text-accentHover transition-colors font-medium text-sm sm:text-base">
+                                <i class="fa-solid fa-map-location-dot mr-2"></i>Buka di Google Maps
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Additional Info -->
+                    <div class="mt-6 sm:mt-8 p-4 sm:p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                        <h4 class="font-bold text-primary mb-3 sm:mb-4 text-lg sm:text-xl flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-accent"></i>
+                            Jam Operasional
+                        </h4>
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-calendar-week text-accent text-xs sm:text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium text-sm sm:text-base">Senin - Jumat</span>
+                                </div>
+                                <span class="font-bold text-primary text-sm sm:text-base">08:00 - 16:00</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-calendar-day text-accent text-xs sm:text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium text-sm sm:text-base">Sabtu</span>
+                                </div>
+                                <span class="font-bold text-primary text-sm sm:text-base">08:00 - 12:00</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-calendar-xmark text-accent text-xs sm:text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium text-sm sm:text-base">Minggu</span>
+                                </div>
+                                <span class="font-bold text-primary text-red-500 text-sm sm:text-base">Tutup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="py-12 sm:py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8 sm:mb-12 animate-on-scroll">
+                <span class="text-accent font-semibold text-xs sm:text-sm uppercase mb-3 sm:mb-4 block tracking-widest">— FAQ</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3 sm:mb-4">Pertanyaan Umum</h2>
+                <p class="text-gray-600 text-sm sm:text-lg">Beberapa pertanyaan yang sering diajukan</p>
+            </div>
+
+            <div class="space-y-4 sm:space-y-6">
+                
+                <!-- FAQ 1 -->
+                <div class="border border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden animate-on-scroll delay-1 card-hover shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <button class="w-full text-left p-4 sm:p-6 flex justify-between items-center hover:bg-gray-50 transition-colors duration-300 group">
+                        <span class="font-semibold text-sm sm:text-lg text-primary group-hover:text-accent">Bagaimana cara bermitra dengan Smart Green House?</span>
+                        <i class="fa-solid fa-chevron-down text-accent text-sm sm:text-base group-hover:rotate-180 transition-transform duration-300"></i>
+                    </button>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="border border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden animate-on-scroll delay-2 card-hover shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <button class="w-full text-left p-4 sm:p-6 flex justify-between items-center hover:bg-gray-50 transition-colors duration-300 group">
+                        <span class="font-semibold text-sm sm:text-lg text-primary group-hover:text-accent">Apakah ada program magang yang tersedia?</span>
+                        <i class="fa-solid fa-chevron-down text-accent text-sm sm:text-base group-hover:rotate-180 transition-transform duration-300"></i>
+                    </button>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="border border-gray-200 rounded-xl sm:rounded-2xl overflow-hidden animate-on-scroll delay-3 card-hover shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <button class="w-full text-left p-4 sm:p-6 flex justify-between items-center hover:bg-gray-50 transition-colors duration-300 group">
+                        <span class="font-semibold text-sm sm:text-lg text-primary group-hover:text-accent">Berapa lama waktu respons untuk email?</span>
+                        <i class="fa-solid fa-chevron-down text-accent text-sm sm:text-base group-hover:rotate-180 transition-transform duration-300"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="py-12 sm:py-16 bg-darkGreen relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: url('image/WhatsApp Image 2025-11-12 at 08.04.05_2182b590.jpg'); background-size: cover; background-position: center;"></div>
+        </div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10 animate-on-scroll">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">Siap Memulai Proyek Anda?</h2>
+            <p class="text-gray-300 text-sm sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4 sm:px-0">
+                Hubungi kami sekarang untuk konsultasi gratis tentang proyek pertanian modern Anda dan bagaimana kami dapat membantu.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
+                <a href="tel:+6281357026595" 
+                   class="bg-accent hover:bg-accentHover text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold inline-flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-accent/30 text-sm sm:text-lg">
+                    <i class="fa-solid fa-phone"></i>
+                    Telepon Sekarang
+                </a>
+                <a href="https://wa.me/6281357026595" 
+                   target="_blank"
+                   class="bg-white hover:bg-gray-100 text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold inline-flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] text-sm sm:text-lg">
+                    <i class="fa-brands fa-whatsapp text-green-500"></i>
+                    WhatsApp
+                </a>
+            </div>
+            <p class="text-gray-400 text-xs sm:text-sm mt-6 sm:mt-8">
+                Respon cepat dalam 1-2 jam kerja | 24/7 Support
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkGreen text-white pt-12 sm:pt-20 pb-8 sm:pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-12 sm:mb-16">
+                
+                <!-- Brand -->
+                <div>
+                    <div class="column items-center gap-2 mb-4 sm:mb-6">
+                        <img class="w-32 sm:w-40 mb-6 sm:mb-10" src="image/unnamed-removebg-preview (1).png" alt="">
+                        <span class="font-bold text-lg sm:text-xl tracking-tight">Smart Green House</span>
+                    </div>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
+                        Membangun masa depan pertanian yang berkelanjutan dengan teknologi pintar dan desain modern.
+                    </p>
+                    <div class="flex gap-3 sm:gap-4">
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary transition-all duration-300 hover:scale-110"><i class="fa-brands fa-facebook-f text-sm sm:text-base"></i></a>
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary transition-all duration-300 hover:scale-110"><i class="fa-brands fa-instagram text-sm sm:text-base"></i></a>
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-primary transition-all duration-300 hover:scale-110"><i class="fa-brands fa-linkedin-in text-sm sm:text-base"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links 1 -->
+                <div>
+                    <h4 class="font-bold text-base sm:text-lg mb-4 sm:mb-6">Navigasi</h4>
+                    <ul class="space-y-2 sm:space-y-4 text-gray-400 text-xs sm:text-sm">
+                        <li><a href="beranda.html" class="hover:text-accent transition-colors duration-300">Beranda</a></li>
+                        <li><a href="profil.html" class="hover:text-accent transition-colors duration-300">Tentang Kami</a></li>
+                        <li><a href="produk.html" class="hover:text-accent transition-colors duration-300">Produk</a></li>
+                        <li><a href="layanan.html" class="hover:text-accent transition-colors duration-300">Layanan</a></li>
+                        <li><a href="kemitraan.html" class="hover:text-accent transition-colors duration-300">Kemitraan</a></li>
+                        <li><a href="artikel.html" class="hover:text-accent transition-colors duration-300">Artikel</a></li>
+                        <li><a href="kontak.html" class="hover:text-accent transition-colors duration-300">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links 2 -->
+                <div>
+                    <h4 class="font-bold text-base sm:text-lg mb-4 sm:mb-6">Layanan</h4>
+                    <ul class="space-y-2 sm:space-y-4 text-gray-400 text-xs sm:text-sm">
+                        <li><a href="layanan.html#magang" class="hover:text-accent transition-colors duration-300">Magang</a></li>
+                        <li><a href="layanan.html#praktik" class="hover:text-accent transition-colors duration-300">Praktik</a></li>
+                        <li><a href="layanan.html#penelitian" class="hover:text-accent transition-colors duration-300">Penelitian</a></li>
+                        <li><a href="layanan.html#studi-banding" class="hover:text-accent transition-colors duration-300">Studi Banding</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact with MAP -->
+                <div>
+                    <h4 class="font-bold text-base sm:text-lg mb-4 sm:mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-2 sm:space-y-4 text-gray-400 text-xs sm:text-sm">
+                        <li class="flex items-start gap-2 sm:gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-accent text-xs sm:text-sm"></i>
+                            <a href="https://maps.app.goo.gl/9sUq7J7w3J2eT26B7" target="_blank" class="hover:text-accent transition-colors duration-300 cursor-pointer">
+                                JL.Mastrip N0.164, Lingkungan Panji, Tegalgede, Kec.Sumbersari, Kabupaten Jember, Jawa Timur 68121
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-2 sm:gap-3">
+                            <i class="fa-solid fa-phone text-accent text-xs sm:text-sm"></i>
+                            <span class="hover:text-accent transition-colors duration-300">+62 813 5702 6595</span>
+                        </li>
+                        <li class="flex items-center gap-2 sm:gap-3">
+                            <i class="fa-solid fa-envelope text-accent text-xs sm:text-sm"></i>
+                            <span class="hover:text-accent transition-colors duration-300">polijesgh@gmail.com</span>
+                        </li>
+                    </ul>
+
+                    <!-- EMBEDDED GOOGLE MAPS -->
+                    <div class="mt-4 sm:mt-6 rounded-lg overflow-hidden h-24 sm:h-32 w-full border border-white/10 shadow-xl">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3121.483564214384!2d113.724936!3d-8.16013052618245!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd695a599d0b3a7%3A0x368f4a9378b18829!2sSmart%20Greenhouse%20Politeknik%20Negeri%20Jember!5e1!3m2!1sid!2sid!4v1765008721542!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm text-gray-500">
+                <p>&copy; 2023 SmartGreen House. All rights reserved.</p>
+                <div class="flex gap-4 sm:gap-6 mt-3 sm:mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors duration-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors duration-300">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript - DROPDOWN MOBILE DIPERBAIKI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- MOBILE MENU LOGIC - DIPERBAIKI ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileServiceToggle = document.getElementById('mobile-service-toggle');
+            const mobileServiceMenu = document.getElementById('mobile-service-menu');
+            const mobileServiceIcon = document.getElementById('mobile-service-icon');
+            
+            // Toggle mobile menu
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    } else {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    }
+                });
+            }
+
+            // Toggle mobile service dropdown - DIPERBAIKI (sekarang button bukan link)
+            if (mobileServiceToggle && mobileServiceMenu) {
+                mobileServiceToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mobileServiceMenu.classList.toggle('active');
+                    
+                    if (mobileServiceIcon) {
+                        mobileServiceIcon.classList.toggle('rotate-180');
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking on links
+            const mobileLinks = document.querySelectorAll('#mobile-menu a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Close main mobile menu
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-xmark');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                    
+                    // Close mobile service dropdown if open
+                    if (mobileServiceMenu && mobileServiceMenu.classList.contains('active')) {
+                        mobileServiceMenu.classList.remove('active');
+                        if (mobileServiceIcon) {
+                            mobileServiceIcon.classList.remove('rotate-180');
+                        }
+                    }
+                });
+            });
+
+            // Close dropdown when clicking outside (for desktop)
+            document.addEventListener('click', (e) => {
+                // For desktop dropdowns
+                const dropdowns = document.querySelectorAll('.nav-dropdown');
+                dropdowns.forEach(dropdown => {
+                    if (!dropdown.contains(e.target)) {
+                        const content = dropdown.querySelector('.nav-dropdown-content');
+                        if (content) {
+                            content.style.opacity = '0';
+                            content.style.visibility = 'hidden';
+                            content.style.transform = 'translateY(10px)';
+                        }
+                    }
+                });
+            });
+
+            // --- SCROLL ANIMATION ---
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.style.animationPlayState = 'running';
+                    }
+                });
+            }
+
+            // Jalankan animasi saat scroll dan load
+            window.addEventListener('scroll', animateOnScroll);
+            window.addEventListener('load', animateOnScroll);
+
+            // --- FORM SUBMISSION ---
+            const contactForm = document.querySelector('form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Tampilkan loading
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...';
+                    submitBtn.disabled = true;
+                    
+                    // Simulasi pengiriman
+                    setTimeout(() => {
+                        alert('Pesan Anda berhasil dikirim! Kami akan menghubungi Anda dalam 1x24 jam.');
+                        this.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 2000);
+                });
+            }
+
+            // FAQ Toggle
+            const faqButtons = document.querySelectorAll('.border.border-gray-200 button');
+            faqButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-chevron-down')) {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    } else {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+
+            // Smooth scroll untuk anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
